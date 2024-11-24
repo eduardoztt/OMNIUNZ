@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "588180446162",
+    "firebase_url": "https://abex-e684e-default-rtdb.firebaseio.com",
+    "project_id": "abex-e684e",
+    "storage_bucket": "abex-e684e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588180446162:android:cf93c29feeebe452be060b",
+        "android_client_info": {
+          "package_name": "com.example.omniunz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588180446162-bdqs15uaf3ijlsq1i3h7839nchouvblj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcEh01FD0ikfEduqjLeEsJ8Zxrq5i6A2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588180446162-bdqs15uaf3ijlsq1i3h7839nchouvblj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
