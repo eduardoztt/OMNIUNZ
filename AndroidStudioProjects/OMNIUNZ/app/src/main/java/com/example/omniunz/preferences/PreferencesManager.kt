@@ -13,9 +13,18 @@ class PreferencesManager (context: Context){
         get() = sharedPreferences.getBoolean(IS_LOGGED, false)
         set(value) = sharedPreferences.edit().putBoolean(IS_LOGGED, value).apply()
 
+    var userEmail: String
+        get() = sharedPreferences.getString(USER_EMAIL,"").toString()
+        set(value) = sharedPreferences.edit().putString(USER_EMAIL, value).apply()
+
     var userName: String
         get() = sharedPreferences.getString(USER_NAME,"").toString()
         set(value) = sharedPreferences.edit().putString(USER_NAME, value).apply()
+
+    var userImage: String
+        get() = sharedPreferences.getString(USER_IMAGE,"").toString()
+        set(value) = sharedPreferences.edit().putString(USER_IMAGE, value).apply()
+
 
     var image: String
         get() = sharedPreferences.getString(IMAGE,"").toString()
@@ -23,7 +32,9 @@ class PreferencesManager (context: Context){
 
     companion object {
         private const val IS_LOGGED = "logou"
+        private const val USER_EMAIL = "email"
         private const val USER_NAME = "name"
+        private const val USER_IMAGE = "userimage"
         private const val IMAGE = "image"
     }
 

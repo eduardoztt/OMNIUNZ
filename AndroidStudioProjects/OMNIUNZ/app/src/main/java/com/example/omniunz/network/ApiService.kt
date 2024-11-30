@@ -28,8 +28,8 @@ interface ApiService {
     @GET("users.json")
     suspend fun getUser(): Map<String, User>
 
-    @GET("users/{id}.json")
-    suspend fun getUser(@Path("id") id: String): User
+    @GET("users/{usuario}/{password}.json")
+    suspend fun getUser(@Path("usuario") usuario: String,@Path("password") password:String): User
 
     @POST("users.json")
     suspend fun saveUser(@Body user: User)

@@ -25,16 +25,17 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textFieldUsuario"
+        android:id="@+id/textFieldEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
         android:layout_marginTop="80dp"
-        android:hint="Usuário"
+        android:hint="E-mail"
         app:layout_constraintTop_toBottomOf="@+id/descricao"
         tools:layout_editor_absoluteX="34dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Emailtext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
@@ -51,9 +52,10 @@
         android:layout_marginTop="28dp"
         android:hint="Senha"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/textFieldUsuario">
+        app:layout_constraintTop_toBottomOf="@+id/textFieldEmail">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/senhatext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"

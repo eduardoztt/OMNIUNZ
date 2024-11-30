@@ -68,24 +68,15 @@
         tools:layout_editor_absoluteX="34dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:enabled="false"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/iconButtonEditEmail"
-        style="?attr/materialIconButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        app:icon="@drawable/baseline_edit_24"
-        app:iconTint="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/textFieldUsuario"
-        app:layout_constraintStart_toEndOf="@+id/textFieldUsuario"
-        app:layout_constraintTop_toTopOf="@+id/textFieldUsuario" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,9 +99,11 @@
         tools:layout_editor_absoluteX="34dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usuarioText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:enabled="false"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -148,9 +141,11 @@
         tools:layout_editor_absoluteX="34dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/senhaText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:enabled="false"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -166,6 +161,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/textFieUrio"
         app:layout_constraintStart_toEndOf="@+id/textFieUrio"
         app:layout_constraintTop_toTopOf="@+id/textFieUrio"/>
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

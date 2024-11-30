@@ -73,6 +73,8 @@ dependencies {
     implementation(kotlin("script-runtime"))
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-auth:22.1.0")
+    implementation ("com.google.firebase:firebase-database:20.2.3")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
@@ -82,6 +84,15 @@ dependencies {
 
 
     implementation ("androidx.compose.runtime:runtime:1.5.1")
+
+    //grafico
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    //circuloProgress
+    implementation ("com.github.lzyzsd:circleprogress:1.2.1")
+
+
+
 
 }
 
