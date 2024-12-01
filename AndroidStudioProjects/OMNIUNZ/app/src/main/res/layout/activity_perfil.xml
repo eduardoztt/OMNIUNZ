@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:icon="@drawable/baseline_arrow_back_24"
-        app:iconTint="#000000"
         app:iconSize="32dp"
+        app:iconTint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,9 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Perfil"
-        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/iconButtonBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,17 +41,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iconButtonBack" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView"
         android:layout_width="84dp"
+        android:padding="2dp"
         android:layout_height="84dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="112dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/image_perfil_main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.16"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/CircularShape"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp" />
 
     <TextView
         android:id="@+id/username"
@@ -59,10 +61,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="112dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
         android:text="Carlos GAY"
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,12 +79,14 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="20dp">
+        tools:layout_editor_absoluteX="40dp">
 
         <LinearLayout
             android:id="@+id/configuracoes"
@@ -106,8 +110,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
                     android:text="Configurações"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
@@ -121,7 +125,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="12dp"/>
+            android:layout_height="12dp" />
 
 
         <LinearLayout
@@ -146,8 +150,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
                     android:text="Notificações"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
@@ -161,7 +165,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="12dp"/>
+            android:layout_height="12dp" />
 
         <LinearLayout
             android:id="@+id/suporte"
@@ -199,9 +203,10 @@
 
 
         </LinearLayout>
+
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="12dp"/>
+            android:layout_height="12dp" />
 
 
         <LinearLayout

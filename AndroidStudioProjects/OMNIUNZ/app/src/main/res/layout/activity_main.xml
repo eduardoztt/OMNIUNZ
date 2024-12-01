@@ -22,33 +22,41 @@
             android:padding="8dp"
             tools:ignore="MissingConstraints">
 
-            <ImageView
+
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/userimage"
                 android:layout_width="66dp"
                 android:layout_height="66dp"
-                app:srcCompat="@drawable/image_perfil_main" />
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_perfil_main"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/CircularShape"
+                app:strokeColor="@color/black"
+                app:strokeWidth="2dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="8dp"
-                android:gravity="center"
+                android:layout_marginHorizontal="12dp"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Bem-Vindo!"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/username"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="USERNAME"
-                    android:textSize="18sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -70,9 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/baseline_search_24"
-                app:iconTint="#000000"
-                app:iconSize="32dp"
-                />
+                app:iconSize="26dp"
+                app:iconTint="#000000" />
 
 
             <Button
@@ -81,14 +88,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/baseline_notifications_none_24"
-                app:iconTint="#000000"
-                app:iconSize="32dp"
-                />
+                app:iconSize="26dp"
+                app:iconTint="#000000" />
 
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/buttonAdicionarMeta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="#7B5CFF"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="10dp"
+        android:text="Adicionar Meta Diária"
+        android:textSize="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -108,28 +130,28 @@
 
 
         <TextView
-            android:id="@+id/currentCalories"
+            android:id="@+id/metaDiaria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
             android:fontFamily="sans-serif-medium"
-            android:text="1456 Kcal"
+            android:text="0 Kcal"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
 
         <TextView
-            android:id="@+id/totalCalories"
+            android:id="@+id/metaTotalCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/currentCalories"
+            android:layout_below="@id/metaDiaria"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="4dp"
             android:fontFamily="sans-serif"
-            android:text="de 2573 kcal"
+            android:text="de 0 kcal"
             android:textColor="#A0A0A0"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -146,31 +168,56 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity=""
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Proteinas"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/columnProteina"
-                android:layout_width="60dp"
-                android:layout_height="6dp"
-                android:layout_marginTop="10dp"
-                android:background="#ff3b30" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Proteina"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="90g"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="14dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp">
+
+                        <View
+                            android:layout_width="60dp"
+                            android:layout_height="6dp"
+                            android:background="#D9D7D5" />
+
+                        <View
+                            android:id="@+id/columnProteina"
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:background="#ff3b30" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/valorProteinas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0g"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -178,65 +225,116 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gordura"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
 
-            <View
-                android:id="@+id/columnGordura"
-                android:layout_width="60dp"
-                android:layout_height="6dp"
-                android:layout_marginTop="10dp"
-                android:background="#ffcc00" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="90g"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gordura"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp">
+
+                        <View
+                            android:layout_width="60dp"
+                            android:layout_height="6dp"
+                            android:background="#D9D7D5" />
+
+                        <View
+                            android:id="@+id/columnGordura"
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:background="#ffcc00" />
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/valorGordura"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0g"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carboidratos"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/columnCarboidrato"
-                android:layout_width="60dp"
-                android:layout_height="6dp"
-                android:layout_marginTop="10dp"
-                android:background="#a2845e" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Carboidrato"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="90g"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content">
 
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp">
+
+                        <View
+                            android:layout_width="60dp"
+                            android:layout_height="6dp"
+                            android:background="#D9D7D5" />
+
+                        <View
+                            android:id="@+id/columnCarboidrato"
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:background="#E08D1F" />
+
+                    </FrameLayout>
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/valorCarboidratos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0g"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -248,11 +346,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="30dp"
         android:text="Acompanhe suas calorias \ndurante o dia!"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -265,7 +363,7 @@
         android:layout_marginVertical="10dp"
         android:text="Calorias diárias: "
         android:textColor="@color/Button"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -275,9 +373,9 @@
         android:id="@+id/caloriasdiaria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1465"
+        android:text="0"
         android:textColor="@color/Button"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
@@ -285,7 +383,7 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
         app:layout_constraintBottom_toTopOf="@+id/iconButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -295,22 +393,19 @@
         app:layout_constraintVertical_bias="0.666" />
 
 
-
-
-
     <Button
         android:id="@+id/iconButton"
         style="?attr/materialIconButtonFilledTonalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:width="90dp"
-        android:height="90dp"
-        app:iconTint="#FFFFFF"
+        android:width="80dp"
+        android:height="80dp"
         android:backgroundTint="#7B5CFF"
         app:icon="@drawable/baseline_add_24"
         app:iconGravity="textStart"
-        app:iconSize="42dp"
+        app:iconSize="36dp"
+        app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -333,30 +428,29 @@
         app:layout_constraintStart_toEndOf="@+id/iconButton" />
 
 
-
-
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp"
+        android:weightSum="6"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:id="@+id/iconButtonHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp">
+            android:layout_weight="1"
+            android:gravity="center">
 
             <Button
+                android:id="@+id/buttonHome"
                 style="?attr/materialIconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/home"
-                app:iconSize="32dp"
-                app:iconTint="#000000"
-                />
+                app:iconSize="26dp"
+                app:iconTint="#000000" />
 
         </LinearLayout>
 
@@ -365,40 +459,46 @@
             android:id="@+id/iconButtonFood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp">
+            android:layout_weight="1"
+            android:gravity="center"
+
+            >
 
             <Button
+                android:id="@+id/buttonFood"
                 style="?attr/materialIconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/vector"
-                app:iconSize="32dp"
-                app:iconTint="#000000"
-                />
+                app:iconSize="26dp"
+                app:iconTint="#000000" />
 
 
         </LinearLayout>
 
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+        <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
 
         <LinearLayout
             android:id="@+id/iconButtonGrafic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="24dp">
+            android:layout_weight="1"
+            android:gravity="center"
+            >
 
             <Button
+                android:id="@+id/buttonGrafic"
                 style="?attr/materialIconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/grafic"
-                app:iconSize="32dp"
-                app:iconTint="#000000"
-                />
+                app:iconSize="26dp"
+                app:iconTint="#000000" />
 
 
         </LinearLayout>
@@ -407,10 +507,9 @@
             android:id="@+id/iconButtonUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="14dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_weight="1"
+            android:gravity="center"
+            >
 
             <Button
                 android:id="@+id/buttonUser"
@@ -418,9 +517,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/user"
-                app:iconTint="#000000"
-                app:iconSize="32dp"
-                />
+                app:iconSize="26dp"
+                app:iconTint="#000000" />
 
 
         </LinearLayout>

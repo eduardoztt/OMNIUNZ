@@ -13,6 +13,8 @@ import com.angellira.app_1_eduardo.preferences.PreferencesManager
 import com.example.omniunz.databinding.ActivityLoginBinding
 import com.example.omniunz.network.Api
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -44,39 +46,6 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.senhatext.text.toString()
 
             loginUser(email, password)
-
-
-//
-//            if (email.isNotEmpty() && password.isNotEmpty()) {
-//
-//                try {
-//                    lifecycleScope.launch(IO) {
-//                        val users = Api.retrofitService.getUser()
-//
-//                        withContext(Main) {
-//                            val matchedUser = users.values.find {
-//                                it.email == email && it.password == password
-//                            }
-//                            if (matchedUser != null) {
-//                                preferencesManager.isLogged = true
-//                                preferencesManager.userEmail = matchedUser.email
-//                                startActivity(
-//                                    Intent(
-//                                        this@LoginActivity,
-//                                        SplashActivity::class.java
-//                                    )
-//                                )
-//                                Log.d("Login", "Usuário encontrado: $matchedUser")
-//                            } else {
-//                                Log.d("Login", "Usuário não encontrado.")
-//                            }
-//
-//                        }
-//                    }
-//                } catch (e: Exception) {
-//                    Toast.makeText(this, "Erro ao acessar dados", Toast.LENGTH_SHORT).show()
-//                }
-//            }
         }
     }
 
@@ -88,16 +57,19 @@ class LoginActivity : AppCompatActivity() {
                     val name = snapshot.child("name").value.toString()
                     val email = snapshot.child("email").value.toString()
                     val image = snapshot.child("profileImageUrl").value?.toString()
+                    val metaDiari = snapshot.child("metaDiaria").value?.toString()?.toInt()
                     preferencesManager.userEmail = email
                     preferencesManager.userName = name
                     preferencesManager.userImage = image.toString()
-
+                    preferencesManager.userUid = uid
+                    preferencesManager.userMeta = metaDiari
 
 
                     Log.i("USER","${name} ${email} ${image}")
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    Log.i("ERROLOGIN","Error fetching data: ${exception.message}")
+                    Toast.makeText(this, "Email ou Senha incorreto", Toast.LENGTH_SHORT).show()
                 }
         } else {
             Toast.makeText(this, "No user logged in", Toast.LENGTH_SHORT).show()
@@ -108,16 +80,22 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show()
                     preferencesManager.isLogged = true
                     getUserData()
-                    startActivity(Intent(this,SplashActivity::class.java))
-
+                    startActivity(Intent(this, SplashActivity::class.java))
                 } else {
-                    Toast.makeText(this, "Login error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+
+                    val errorMessage = when (task.exception) {
+                        is FirebaseAuthInvalidCredentialsException -> "E-mail ou senha inválidos."
+                        is FirebaseAuthUserCollisionException -> "Este e-mail já está em uso."
+                        else -> "Erro no login: ${task.exception?.message}"
+                    }
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }
     }
+
 
     private fun setupView() {
         binding = ActivityLoginBinding.inflate(layoutInflater)

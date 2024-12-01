@@ -13,6 +13,9 @@ import com.example.omniunz.databinding.ActivityCadastroBinding
 import com.example.omniunz.network.Api
 import com.example.omniunz.network.ApiService
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -31,37 +34,35 @@ class CadastroActivity : AppCompatActivity() {
 
 
         binding.cadastrarButton.setOnClickListener {
-//            binding.cadastrarButton.isEnabled = false
-            val email = binding.EmailText.text.toString()
-            val name = binding.usuarioText.text.toString()
-            val password = binding.PasswordText.text.toString()
-            val confirmSenha = binding.confirmarPasswordText.text.toString()
+            verificacoesDosCampos()
+        }
+    }
 
-            registerUser(email, password, name)
+    private fun verificacoesDosCampos() {
 
-//            if (name.isNotEmpty() && email.isNotEmpty() && senha.isNotEmpty() && confirmSenha.isNotEmpty()) {
-//                if (senha == confirmSenha) {
-//
-//                    val newUser = User(x
-//                        name,
-//                        email,
-//                        senha
-//                    )
-//                    try {
-//
-//                        lifecycleScope.launch(IO) {
-//                            Api.retrofitService.saveUser(newUser)
-//                            startActivity(Intent(this@CadastroActivity, LoginActivity::class.java))
-//                        }
-//                    } catch (e: Exception) {
-//                        Toast.makeText(this, "Erro ao Cadastrar Usuário", Toast.LENGTH_SHORT).show()
-//                    }
-//                }else{
-//                    Toast.makeText(this, "O Campo confirmar Senha deve ser igual a Senha", Toast.LENGTH_SHORT).show()
-//                }
-//            }else{
-//                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-//            }
+        val email = binding.EmailText.text.toString()
+        val name = binding.usuarioText.text.toString()
+        val password = binding.PasswordText.text.toString()
+        val confirmSenha = binding.confirmarPasswordText.text.toString()
+
+
+        if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmSenha.isNotEmpty()) {
+            if (password == confirmSenha) {
+                try {
+                    binding.cadastrarButton.isEnabled = false
+                    registerUser(email, password, name)
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Erro ao Cadastrar Usuário", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(
+                    this,
+                    "O Campo confirmar Senha deve ser igual a Senha",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } else {
+            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -72,23 +73,35 @@ class CadastroActivity : AppCompatActivity() {
                     val uid = auth.currentUser?.uid
                     val user = mapOf(
                         "name" to name,
-                        "email" to email
+                        "email" to email,
+                        "metaDiaria" to 0
                     )
                     if (uid != null) {
                         database.child("users").child(uid).setValue(user)
                             .addOnCompleteListener { dbTask ->
                                 if (dbTask.isSuccessful) {
-                                    Toast.makeText(this, "Usuário Cadastrado com sucesso", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, "Usuário cadastrado com sucesso", Toast.LENGTH_SHORT).show()
+                                    startActivity(Intent(this, LoginActivity::class.java))
                                 } else {
-                                    Toast.makeText(this, "Database error: ${dbTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                                    binding.cadastrarButton.isEnabled = true
+                                    Toast.makeText(this, "Erro ao salvar dados no banco de dados: ${dbTask.exception?.message}", Toast.LENGTH_SHORT).show()
                                 }
                             }
                     }
                 } else {
-                    Toast.makeText(this, "Registration error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    binding.cadastrarButton.isEnabled = true
+                    // Exibindo erro de autenticação
+                    val errorMessage = when (task.exception) {
+                        is FirebaseAuthWeakPasswordException -> "A senha fornecida é muito fraca. Tente uma senha mais forte."
+                        is FirebaseAuthInvalidCredentialsException -> "O formato do E-mail é inválido."
+                        is FirebaseAuthUserCollisionException -> "Já existe uma conta com este E-mail."
+                        else -> "Erro no cadastro: ${task.exception?.message}"
+                    }
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }
     }
+
 
 
     private fun setupView() {

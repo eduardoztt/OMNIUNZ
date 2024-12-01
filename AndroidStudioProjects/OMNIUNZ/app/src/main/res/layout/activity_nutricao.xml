@@ -58,9 +58,9 @@
 
     <ImageView
 
-        android:id="@+id/imageView2"
+        android:id="@+id/imageAlimento"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="36dp"
         android:scaleType="centerCrop"
@@ -75,10 +75,10 @@
         android:layout_marginTop="16dp"
         android:text="NomeDaClasse"
         android:textColor="@color/black"
-        android:textSize="26sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintStart_toStartOf="@+id/imageAlimento"
+        app:layout_constraintTop_toBottomOf="@+id/imageAlimento" />
 
 
     <TextView
@@ -87,9 +87,9 @@
         android:layout_height="wrap_content"
         android:text="100G"
         android:textColor="@color/black"
-        android:textSize="26sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageAlimento"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/NameClase"
         app:layout_constraintTop_toTopOf="@+id/NameClase" />
@@ -99,8 +99,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Valor Nutricional"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/imageAlimento"
         app:layout_constraintTop_toBottomOf="@+id/NameClase" />
 
     <TextView
@@ -108,8 +108,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="457 cal"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageAlimento"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/valorNutricional"
         app:layout_constraintTop_toTopOf="@+id/valorNutricional" />
@@ -146,9 +146,10 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:scaleType="centerCrop"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/f6b5f67737510e8216f50cef8f45f691" />
 
                 <LinearLayout
@@ -167,7 +168,7 @@
                             android:layout_height="wrap_content"
                             android:text="Proteina"
                             android:textColor="@color/black"
-                            android:textSize="26sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <View
@@ -181,7 +182,7 @@
                             android:layout_height="wrap_content"
                             android:text="22g"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <FrameLayout
@@ -227,9 +228,10 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:scaleType="centerCrop"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/dd2585fa4556cdccb18ca5fd6a2d38a7" />
 
                 <LinearLayout
@@ -248,7 +250,7 @@
                             android:layout_height="wrap_content"
                             android:text="Carboidrato"
                             android:textColor="@color/black"
-                            android:textSize="26sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
 
@@ -263,7 +265,7 @@
                             android:layout_height="wrap_content"
                             android:text="1,8g"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
 
@@ -281,7 +283,7 @@
                             android:id="@+id/columnCarboidrato"
                             android:layout_width="0dp"
                             android:layout_height="6dp"
-                            android:background="#a2845e" />
+                            android:background="#E08D1F" />
 
                     </FrameLayout>
 
@@ -309,9 +311,10 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:scaleType="centerCrop"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/gordura" />
 
                 <LinearLayout
@@ -330,7 +333,7 @@
                             android:layout_height="wrap_content"
                             android:text="Gorduras"
                             android:textColor="@color/black"
-                            android:textSize="26sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
 
@@ -345,7 +348,7 @@
                             android:layout_height="wrap_content"
                             android:text="19g"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <FrameLayout
@@ -402,7 +405,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Um corpo saudável precisa de uma boa nutrição"
-                android:textSize="23sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView

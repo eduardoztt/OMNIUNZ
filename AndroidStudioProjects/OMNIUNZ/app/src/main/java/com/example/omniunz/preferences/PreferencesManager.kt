@@ -26,6 +26,20 @@ class PreferencesManager (context: Context){
         set(value) = sharedPreferences.edit().putString(USER_IMAGE, value).apply()
 
 
+    var userUid: String
+        get() = sharedPreferences.getString(USER_UID,"").toString()
+        set(value) = sharedPreferences.edit().putString(USER_UID, value).apply()
+
+    var userMeta: Int?
+        get() = sharedPreferences.getInt(USER_META,0)
+        set(value) = sharedPreferences.edit().putInt(USER_META, value!!).apply()
+
+    var CaloriaDiaAtual: Int?
+        get() = sharedPreferences.getInt(CALORIA,0)
+        set(value) = sharedPreferences.edit().putInt(CALORIA, value!!).apply()
+
+
+
     var image: String
         get() = sharedPreferences.getString(IMAGE,"").toString()
         set(value) = sharedPreferences.edit().putString(IMAGE, value).apply()
@@ -35,6 +49,9 @@ class PreferencesManager (context: Context){
         private const val USER_EMAIL = "email"
         private const val USER_NAME = "name"
         private const val USER_IMAGE = "userimage"
+        private const val USER_META = "usermeta"
+        private const val CALORIA = "caloria"
+        private const val USER_UID = "userid"
         private const val IMAGE = "image"
     }
 

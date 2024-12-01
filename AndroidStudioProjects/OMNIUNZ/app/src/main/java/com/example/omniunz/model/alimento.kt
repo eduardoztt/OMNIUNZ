@@ -5,10 +5,10 @@
 
     @Serializable
     data class Alimento(
-        val name: String,
-        val proteina: String,
-        val carboidrato: String,
-        val gordura: String,
-        val caloria: String,
-        val image: String
+        val nome: String = "",
+        val proteinas: String = "",
+        val carboidrato: String = "",
+        val gorduras: String = "",
+        val calorias: String = "",
+        val url: String = ""
     ) : java.io.Serializable

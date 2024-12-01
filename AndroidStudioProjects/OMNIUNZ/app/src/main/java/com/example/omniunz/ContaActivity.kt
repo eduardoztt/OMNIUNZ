@@ -1,11 +1,14 @@
 package com.example.omniunz
 
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.util.Patterns
 import android.util.TypedValue
+import android.view.Gravity
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.Toast.*
@@ -64,41 +67,82 @@ class ContaActivity : AppCompatActivity() {
     private fun cardSolicitarRedefinirSenha(
         layout: LinearLayout, editText: TextInputEditText, editText2: TextInputEditText? = null
     ): AlertDialog {
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setView(layout).setPositiveButton("Enviar") { _, _ ->
+
+        lateinit var dialog: AlertDialog
+
+        val positiveButton = Button(this).apply {
+            text = "Alterar"
+            textSize = 16f
+            setTextColor(ContextCompat.getColor(context, R.color.white)) // Cor do texto
+            setBackgroundColor(ContextCompat.getColor(context, R.color.Button)) // Cor de fundo
+            setPadding(80, 20, 80, 20) // Padding do botão
+
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 90f // Tamanho do raio da borda
+                setColor(ContextCompat.getColor(context, R.color.Button)) // Cor de fundo
+            }
+            background = drawable
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.CENTER // Centraliza o botão no layout
+                setMargins(0, 70, 0, 70)
+            }
+
+            //codigo para o botao alterar do card
+            setOnClickListener {
                 val text = editText.text.toString()
                 val text2 = editText2?.text?.toString()
                 try {
                     if (editSenha == false) {
                         val name = text.trim()
                         if (name.isEmpty()) {
-                            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@ContaActivity,
+                                "Name cannot be empty",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
-                            updateName(name)
+                            updateName(name.toString())
                         }
                     } else {
                         if (text == text2) {
                             val password = text.trim()
-
                             if (password.isEmpty()) {
-                                Toast.makeText(this, "Password cannot be empty", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    this@ContaActivity,
+                                    "Password cannot be empty",
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             } else {
-                                updatePassword(password)
+                                updatePassword(password.toString())
                             }
-                        }else{
-                            makeText(this, "O campo confirmar senha deve ser igual a senha", LENGTH_SHORT).show()
+                        } else {
+                            makeText(
+                                this@ContaActivity,
+                                "O campo confirmar senha deve ser igual a senha",
+                                LENGTH_SHORT
+                            ).show()
                         }
                     }
-
-
-                    makeText(
-                        this, "E-mail enviado, cheque sua caixa de E-mail", LENGTH_SHORT
-                    ).show()
+                    dialog.dismiss()
                 } catch (e: Exception) {
                     //logica caso quebrar o app
                 }
-            }.create()
+
+            }
+        }
+
+        // Adiciona o botão ao layout fornecido
+        layout.addView(positiveButton)
+
+        dialog = MaterialAlertDialogBuilder(this)
+            .setView(layout) // Define o layout customizado com EditText e botão
+            .create()
+
         return dialog
     }
 
@@ -256,7 +300,7 @@ class ContaActivity : AppCompatActivity() {
         return Pair(textInputLayout, editText)
     }
 
-    // Função para atualizar o nome no Firebase Realtime Database
+    // Função para atualizar o nome no Firebase Realtime Database, mas precisa de melhoria pois depois de um tempo do usuario logado não funciona mais a alteração
     private fun updateName(name: String) {
         val user = auth.currentUser
         val uid = user?.uid
@@ -276,16 +320,16 @@ class ContaActivity : AppCompatActivity() {
         }
     }
 
-    // Função para atualizar a senha no Firebase Authentication
+    // Função para atualizar a senha no Firebase Authentication, mas precisa de melhoria pois depois de um tempo do usuario logado não funciona mais a alteração
     private fun updatePassword(password: String) {
         val user = auth.currentUser
 
         user?.updatePassword(password)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Password updated successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Senha alterada com sucesso", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Error updating password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Erro ao alterar Senha", Toast.LENGTH_SHORT).show()
                 }
             }
     }

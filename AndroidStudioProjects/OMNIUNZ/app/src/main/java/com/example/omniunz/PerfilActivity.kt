@@ -73,7 +73,9 @@ class PerfilActivity : AppCompatActivity() {
     }
 
     private fun mostrarDadosUser() {
-        binding.imageView.load(preferencesManager.userImage)
+        if (preferencesManager.userImage != null && preferencesManager.userImage.isNotEmpty() && preferencesManager.userImage != "null" ) {
+            binding.imageView.load(preferencesManager.userImage)
+        }
         binding.username.text = preferencesManager.userName
     }
 
@@ -90,8 +92,6 @@ class PerfilActivity : AppCompatActivity() {
                     preferencesManager.userImage = image.toString()
                     mostrarDadosUser()
 
-
-                    Toast.makeText(this, "Name: $name, Email: $email", Toast.LENGTH_LONG).show()
                 }
                 .addOnFailureListener { exception ->
                     Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()

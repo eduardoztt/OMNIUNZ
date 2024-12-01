@@ -1,6 +1,8 @@
 package com.example.omniunz.adapter
 
 import android.view.LayoutInflater
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -25,11 +27,25 @@ class RecyclerViewAlimentos (
 
             fun bind(post: Alimento) {
                 this.post = post
-                postsitembinding.NameAlimento.text = post.name
-                if (post.image == "imagem" || post.image == null ||  post.image == "") {
+                postsitembinding.NameAlimento.text = post.nome
+                if (post.url == "imagem" || post.url == null ||  post.url == "") {
                     postsitembinding.ImageAlimento.load("https://firebasestorage.googleapis.com/v0/b/aplicativomobile-4adc3.appspot.com/o/semImagem.jpg?alt=media&token=f31ed409-302f-4c71-aab2-5376dcf08a2a")
                 } else {
-                    postsitembinding.ImageAlimento.load("https://firebasestorage.googleapis.com/v0/b/aplicativomobile-4adc3.appspot.com/o/semImagem.jpg?alt=media&token=f31ed409-302f-4c71-aab2-5376dcf08a2a")
+                    postsitembinding.ImageAlimento.load(post.url) {
+                        listener(
+                            onSuccess = { _, _ ->
+                                // Quando a imagem for carregada com sucesso
+                                postsitembinding.progressBar2.visibility = GONE
+                                postsitembinding.ImageAlimento.visibility = VISIBLE
+                            },
+                            onError = { _, _ ->
+                                // Caso ocorra erro no carregamento da imagem
+                                postsitembinding.progressBar2.visibility = GONE
+
+                            }
+                        )
+                    }
+
                 }
 
 

@@ -12,7 +12,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="60dp"
         android:text="OMNIUNZ"
         android:textStyle="bold"
         android:textAlignment="center"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:hint="E-mail"
         app:layout_constraintTop_toBottomOf="@+id/textFieldUsuario"
         tools:layout_editor_absoluteX="34dp">
@@ -37,7 +37,10 @@
             android:id="@+id/EmailText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLength="40"
             android:textStyle="bold"
             />
 
@@ -57,7 +60,10 @@
             android:id="@+id/usuarioText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLength="22"
             android:textStyle="bold"
             />
 
@@ -68,15 +74,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="28dp"
-        android:hint="Senha"
+        android:layout_marginTop="20dp"
+        android:hint="Senha"        app:endIconMode="password_toggle"
+
+
         app:layout_constraintTop_toBottomOf="@+id/textFieldEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/PasswordText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLength="20"
+            android:inputType="textPassword"
             android:textStyle="bold"
             />
 
@@ -86,8 +98,8 @@
         android:id="@+id/descricao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="80dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="30dp"
         android:text="Seja Bem-Vindo(a) ao seu app de controle de calorias"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -100,15 +112,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:hint="Confirmar Senha"
+        app:endIconMode="password_toggle"
         app:layout_constraintTop_toBottomOf="@+id/textFieldSenha">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/confirmarPasswordText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLength="20"
+            android:inputType="textPassword"
             android:textStyle="bold"
             />
 
@@ -119,7 +136,7 @@
         android:id="@+id/cadastrarButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="30dp"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
         android:backgroundTint="#7B5CFF"

@@ -17,13 +17,13 @@ class CalorieProgressView @JvmOverloads constructor(
     private val paintBackground = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = ContextCompat.getColor(context, android.R.color.darker_gray)
         style = Paint.Style.STROKE
-        strokeWidth = 80f //largura do circulo
+        strokeWidth = 60f //largura do circulo
     }
 
     private val paintProgress = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = android.graphics.Color.parseColor("#FF7B5CFF")
         style = Paint.Style.STROKE
-        strokeWidth = 80f //largura do circulo
+        strokeWidth = 60f //largura do circulo
         strokeCap = Paint.Cap.ROUND
     }
 
@@ -44,9 +44,9 @@ class CalorieProgressView @JvmOverloads constructor(
         rectF.set(padding, padding, size - padding, size - padding)
 
         // Desenha o fundo do arco
-        canvas.drawArc(rectF, 184f, 180f, false, paintBackground)
+        canvas.drawArc(rectF, 180f, 180f, false, paintBackground)
 
         // Desenha o progresso
-        canvas.drawArc(rectF, 184f, progress * 1.8f, false, paintProgress)
+        canvas.drawArc(rectF, 180f, progress * 1.8f, false, paintProgress)
     }
 }

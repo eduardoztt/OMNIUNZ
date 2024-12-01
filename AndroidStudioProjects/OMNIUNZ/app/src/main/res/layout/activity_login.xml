@@ -12,7 +12,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="60dp"
         android:text="OMNIUNZ"
         android:textAlignment="center"
         android:textStyle="bold"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:hint="E-mail"
         app:layout_constraintTop_toBottomOf="@+id/descricao"
         tools:layout_editor_absoluteX="34dp">
@@ -38,7 +38,10 @@
             android:id="@+id/Emailtext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLength="40"
             android:textStyle="bold"
             />
 
@@ -52,15 +55,19 @@
         android:layout_marginTop="28dp"
         android:hint="Senha"
         android:textStyle="bold"
+        app:endIconMode="password_toggle"
         app:layout_constraintTop_toBottomOf="@+id/textFieldEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/senhatext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLength="20"
             android:textStyle="bold"
-
+            android:inputType="textPassword"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -84,8 +91,8 @@
         android:id="@+id/descricao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="80dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="30dp"
         android:text="Seja Bem-Vindo(a) ao seu app de controle de calorias"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -98,7 +105,7 @@
         android:id="@+id/ButtonEntrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="66dp"
         android:backgroundTint="@color/Button"
         android:paddingHorizontal="60dp"
         android:paddingVertical="10dp"
