@@ -94,10 +94,11 @@ class MainActivity : AppCompatActivity() {
         val pickMedia =
             FindImage(storage)
 
+
         mostrarDadosUser()
 
 
-        filtrarHistoricoPorSemanaAtual()
+        buscarDadosDosUltimosSeteDias()
 
 
         binding.userimage.setOnClickListener {
@@ -144,7 +145,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun filtrarHistoricoPorSemanaAtual() {
+    private fun buscarDadosDosUltimosSeteDias() {
         val formatoData = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val hoje = LocalDate.now()
 
@@ -572,8 +573,11 @@ class MainActivity : AppCompatActivity() {
         if (meta > 0) {
             val porcentagem = (dia7caloria / meta) * 100
             val calorieProgressView = findViewById<CalorieProgressView>(R.id.calorieProgressView)
-            calorieProgressView.setProgress(porcentagem)
-
+            if (porcentagem >= 100) {
+                calorieProgressView.setProgress(100F)
+            }else {
+                calorieProgressView.setProgress(porcentagem)
+            }
             // Opcional: Mostre a porcentagem no log ou na tela
             Log.i(
                 "CalorieProgress",
@@ -609,9 +613,12 @@ class MainActivity : AppCompatActivity() {
         storage: FirebaseStorage,
     ): ActivityResultLauncher<PickVisualMediaRequest> {
 
+
         val email = preferencesManager.userEmail
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                binding.layoutMain.visibility = GONE
+                binding.layoutLoad.visibility = VISIBLE
                 if (uri != null) {
                     Log.d("PhotoPicker", "Selected URI: $uri")
 
@@ -638,10 +645,6 @@ class MainActivity : AppCompatActivity() {
                                             val request = ImageRequest(imagem = base64String)
 
                                             try {
-                                                lifecycleScope.launch(Main) {
-                                                    binding.layoutMain.visibility = GONE
-                                                    binding.layoutLoad.visibility = VISIBLE
-                                                }
                                                 lifecycleScope.launch(IO) {
 
                                                     val resultado =
@@ -666,6 +669,8 @@ class MainActivity : AppCompatActivity() {
                                                             "classe",
                                                             resultado[0].classe
                                                         )
+                                                        binding.layoutMain.visibility = VISIBLE
+                                                        binding.layoutLoad.visibility = GONE
                                                         startActivity(intent)
                                                     }
                                                 }

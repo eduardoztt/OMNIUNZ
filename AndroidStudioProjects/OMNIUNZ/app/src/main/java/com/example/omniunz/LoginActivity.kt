@@ -44,8 +44,9 @@ class LoginActivity : AppCompatActivity() {
 
             val email = binding.Emailtext.text.toString()
             val password = binding.senhatext.text.toString()
-
-            loginUser(email, password)
+            if(password.isNotEmpty() && email.isNotEmpty()) {
+                loginUser(email, password)
+            }
         }
     }
 
