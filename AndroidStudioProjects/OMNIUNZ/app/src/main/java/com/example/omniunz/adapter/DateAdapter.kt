@@ -19,11 +19,11 @@
 
                 // Definindo o tamanho conforme o tipo do post
                 val params = binding.root.layoutParams
-                if (post.isDaily) {
-                    params.width = 260
-                } else {
-                    params.width = 400
-                }
+//                if (post.isDaily) {
+//                    params.width = 260
+//                } else {
+//                    params.width = 400
+//                }
                 binding.root.layoutParams = params
 
                 // Alterar o fundo e cor do texto com base na seleção

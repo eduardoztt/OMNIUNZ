@@ -12,3 +12,5 @@
         val calorias: String = "",
         val url: String = ""
     ) : java.io.Serializable
+
+

@@ -8,4 +8,5 @@ data class MyDataItem(
     val data: String,
     val isDaily: Boolean = true,
     val isSemana: Boolean = true,
+    val hoje : Boolean = false
 )

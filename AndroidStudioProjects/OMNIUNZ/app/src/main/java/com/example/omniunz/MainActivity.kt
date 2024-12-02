@@ -1,6 +1,7 @@
 package com.example.omniunz
 
 import Historico
+import ImageRequest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
@@ -30,11 +31,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.angellira.app_1_eduardo.preferences.PreferencesManager
 import com.example.omniunz.databinding.ActivityMainBinding
 import com.example.omniunz.grafic.CalorieProgressView
 import com.example.omniunz.grafic.CustomMarkerView
+import com.example.omniunz.network.ApiAlimento
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -54,8 +57,11 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import java.io.ByteArrayOutputStream
 import java.net.URL
 import java.text.NumberFormat
@@ -466,8 +472,8 @@ class MainActivity : AppCompatActivity() {
         dataSet.fillColor = Color.parseColor("#E3F2FD") // Cor mais clara para o preenchimento
         dataSet.fillAlpha = 200 // Transparência do preenchimento
 
-        // Remover os valores exibidos no meio da linha
-        dataSet.setDrawValues(false) // Esta configuração desativa os valores no gráfico
+        // tira valores exibidos no meio da linha
+        dataSet.setDrawValues(false) /// desativa os valores no gráfico
 
         // Configuração do eixo X
         val xAxis = lineChart.xAxis
@@ -480,7 +486,7 @@ class MainActivity : AppCompatActivity() {
         val hoje = LocalDate.now()
         val ultimos7Dias = (0..6).map { hoje.minusDays(it.toLong()).format(formatoData) }.reversed()
 
-// Configurando o ValueFormatter para exibir apenas o dia
+        // Configurando o ValueFormatter para exibir apenas o dia
         xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return ultimos7Dias.getOrNull(value.toInt()) ?: value.toString()
@@ -498,7 +504,7 @@ class MainActivity : AppCompatActivity() {
         yAxisLeft.axisMaximum = 2500f // Valor máximo do eixo Y
         yAxisLeft.granularity = 500f
 
-
+        // aqui é onde quando é clicado no grafico mostr os valores
         val markerView = CustomMarkerView(this, R.layout.custom_marker)
         markerView.chartView = lineChart // Vincula o MarkerView ao gráfico
         lineChart.marker = markerView
@@ -558,8 +564,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun updateProgressBarCalorias(dia7caloria: Int) {
         binding.caloriasdiaria.text = dia7caloria.toString()
         binding.metaDiaria.text = "${dia7caloria} Kcal"
@@ -571,7 +575,10 @@ class MainActivity : AppCompatActivity() {
             calorieProgressView.setProgress(porcentagem)
 
             // Opcional: Mostre a porcentagem no log ou na tela
-            Log.i("CalorieProgress", "Progresso: $porcentagem% (Consumidas: $dia7caloria, Meta: $meta)")
+            Log.i(
+                "CalorieProgress",
+                "Progresso: $porcentagem% (Consumidas: $dia7caloria, Meta: $meta)"
+            )
         } else {
             Log.e("CalorieProgress", "A meta deve ser maior que 0.")
             val calorieProgressView = findViewById<CalorieProgressView>(R.id.calorieProgressView)
@@ -628,17 +635,68 @@ class MainActivity : AppCompatActivity() {
                                         if (bitmap != null) {
                                             val base64String = convertBitmapToBase64(bitmap)
                                             preferencesManager.image = downloadUri
-                                            base64String //para mandar para a API
-                                            Log.d(
-                                                "PhotoPicker",
-                                                "Imagem salva em Base64 no SharedPreferences ${preferencesManager.image}"
-                                            )
-                                            startActivity(
-                                                Intent(
-                                                    this@MainActivity,
-                                                    NutricaoClassesActivity::class.java
+                                            val request = ImageRequest(imagem = base64String)
+
+                                            try {
+                                                lifecycleScope.launch(Main) {
+                                                    binding.layoutMain.visibility = GONE
+                                                    binding.layoutLoad.visibility = VISIBLE
+                                                }
+                                                lifecycleScope.launch(IO) {
+
+                                                    val resultado =
+                                                        ApiAlimento.retrofitService.image(
+                                                            request
+                                                        )
+                                                    lifecycleScope.launch(Main) {
+                                                        Log.i(
+                                                            "RESULTADOdaAPIIIIIIIIIIIIII",
+                                                            resultado.toString()
+                                                        )
+                                                        Log.d(
+                                                            "PhotoPicker",
+                                                            "Imagem salva em Base64 no SharedPreferences ${preferencesManager.image}"
+                                                        )
+
+                                                        val intent = Intent(
+                                                            this@MainActivity,
+                                                            NutricaoClassesActivity::class.java
+                                                        )
+                                                        intent.putExtra(
+                                                            "classe",
+                                                            resultado[0].classe
+                                                        )
+                                                        startActivity(intent)
+                                                    }
+                                                }
+                                            } catch (e: HttpException) {
+                                                // Captura o erro 502 ou outros erros HTTP
+                                                Log.e(
+                                                    "API_ERROR",
+                                                    "Erro ao chamar o servidor: ${e.message}"
                                                 )
-                                            )
+                                                lifecycleScope.launch(Main) {
+                                                    // Exibe uma mensagem de erro para o usuário
+                                                    Toast.makeText(
+                                                        this@MainActivity,
+                                                        "Erro ao se conectar ao servidor. Tente novamente.",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            } catch (e: Exception) {
+                                                // Captura outros tipos de exceção
+                                                Log.e(
+                                                    "GENERAL_ERROR",
+                                                    "Erro desconhecido: ${e.message}"
+                                                )
+                                                lifecycleScope.launch(Main) {
+                                                    Toast.makeText(
+                                                        this@MainActivity,
+                                                        "Erro desconhecido. Tente novamente.",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            }
                                         } else {
                                             Log.e(
                                                 "PhotoPicker",
@@ -667,6 +725,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d("PhotoPicker", "No media selected")
                 }
             }
+        binding.layoutMain.visibility = VISIBLE
+        binding.layoutLoad.visibility = GONE
         return pickMedia
     }
 

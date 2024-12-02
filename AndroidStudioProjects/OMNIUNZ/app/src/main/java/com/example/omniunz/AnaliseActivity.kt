@@ -20,16 +20,15 @@ class AnaliseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupView()
 
-        binding.iconButtonBack.setOnClickListener {
-            startActivity(Intent(this,MainActivity::class.java))
-        }
+//        binding.iconButtonBack.setOnClickListener {
+//            startActivity(Intent(this,MainActivity::class.java))
+//        }
         binding.iconButtonMore.setOnClickListener {
-          // startActivity(Intent(this,PerfilActivity::class.java))
+            // startActivity(Intent(this,PerfilActivity::class.java))
         }
-        lifecycleScope.launch {
-            delay(2.seconds)
-            startActivity(Intent(this@AnaliseActivity,NutricaoActivity::class.java))
-        }
+
+        startActivity(Intent(this@AnaliseActivity, NutricaoActivity::class.java))
+
 
     }
 

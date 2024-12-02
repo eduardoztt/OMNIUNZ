@@ -4,11 +4,14 @@ import Historico
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import coil.load
 import com.angellira.app_1_eduardo.preferences.PreferencesManager
 import com.example.omniunz.databinding.ActivityNutricaoBinding
 import com.example.omniunz.model.Alimento
@@ -36,6 +39,18 @@ class NutricaoActivity : AppCompatActivity() {
         binding.carboidrato.text = alimento.carboidrato
         binding.proteina.text = alimento.proteinas
         binding.gordura.text = alimento.gorduras
+        binding.valorNutricionalqtd.text = alimento.calorias
+        binding.NameClase.text = alimento.nome
+        binding.imageAlimento.load(preferencesManager.image) {
+            listener(
+                onSuccess = { _, _ ->
+                    binding.progressBar2.visibility = GONE
+                    binding.imageAlimento.visibility = VISIBLE
+                },
+                onError = { _, _ -> binding.progressBar2.visibility = GONE }
+            )
+        }
+
 
 
         saveAlimento(
@@ -44,7 +59,7 @@ class NutricaoActivity : AppCompatActivity() {
             alimento.carboidrato,
             alimento.gorduras,
             alimento.calorias,
-            alimento.url
+            preferencesManager.image
         )
 
         try {

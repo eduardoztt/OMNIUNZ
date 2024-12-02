@@ -37,6 +37,7 @@ class HistoricoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHistoricoBinding
     private lateinit var database: FirebaseDatabase
     private lateinit var preferencesManager: PreferencesManager
+    private lateinit var filtroSelecionado: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -347,117 +348,21 @@ class HistoricoActivity : AppCompatActivity() {
 
             when (checkedId) {
                 R.id.btnDiario -> {
-                    // Preenche a lista com os dias do mês
-                    val daysOfMonth = (1..currentDate.lengthOfMonth()).map { day ->
-                        currentDate.withDayOfMonth(day)
-                            .format(DateTimeFormatter.ofPattern("MMM \ndd"))
-                    }
-                    daysOfMonth.forEachIndexed { index, dayFormatted ->
-
-                        val dataNoFormatoDDMMYYYY = currentDate.withDayOfMonth(index + 1)
-                            .format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
-
-                        dataList.add(
-                            MyDataItem(
-                                name = dayFormatted,  // Exibe como "Nov \n23"
-                                data = dataNoFormatoDDMMYYYY,  // Salva como "23-11-2024"
-                                isDaily = true,
-                                isSemana = false
-                            )
-                        )
-
-                        // Verifica se é o dia atual e marca o item
-                        if (currentDate.dayOfMonth == index + 1) {
-                            selectedItemIndex = index // Marca o índice do item como selecionado
-                        }
-                    }
+                    selectedItemIndex = Diario(currentDate, dataList, selectedItemIndex)
                 }
 
                 R.id.btnSemanal -> {
-                    val weeksOfMonth = mutableListOf<String>()
-
-                    val currentDate = LocalDate.now()
-                    val firstDayOfMonth = currentDate.withDayOfMonth(1)
-                    val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth())
-
-                    val totalWeeksInMonth = ChronoUnit.WEEKS.between(
-                        firstDayOfMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)),
-                        lastDayOfMonth.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY))
-                    ).toInt() + 1
-
-                    for (week in 0 until totalWeeksInMonth) {
-                        val startOfWeek = firstDayOfMonth.plusWeeks(week.toLong()).with(
-                            TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)
-                        )
-
-                        val endOfWeek = startOfWeek.plusDays(6)
-
-                        val weekFormatted = "Semana ${week + 1} - ${
-                            startOfWeek.format(
-                                DateTimeFormatter.ofPattern("MMM dd")
-                            )
-                        } a ${endOfWeek.format(DateTimeFormatter.ofPattern("MMM dd"))}"
-
-                        // Salvando a data de início da semana no formato "dd-MM-yyyy"
-                        val weekStartDate =
-                            startOfWeek.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
-
-                        dataList.add(
-                            MyDataItem(
-                                name = weekFormatted,
-                                data = weekStartDate, // Aqui será salva a data de início da semana
-                                isDaily = false,
-                                isSemana = true
-                            )
-                        )
-
-                        if (currentDate.isBefore(endOfWeek.plusDays(1)) && currentDate.isAfter(
-                                startOfWeek.minusDays(1)
-                            )
-                        ) {
-                            selectedItemIndex = week
-                        }
-                    }
+                    selectedItemIndex = Semanal(dataList, selectedItemIndex)
                 }
 
 
                 R.id.btnMensal -> {
-                    // Preenche a lista com os meses do ano atual em pt-BR
-                    val monthsOfYear = (0 until 12).map { month ->
-                        // Usa o ano atual e configura o Locale para pt-BR para os nomes dos meses
-                        currentDate.withMonth(month + 1)
-                            .format(DateTimeFormatter.ofPattern("MMMM", Locale("pt", "BR")))
-                    }
-
-                    monthsOfYear.forEachIndexed { index, monthFormatted ->
-                        // Cria a data correspondente a cada mês no formato "MM-yyyy"
-                        val monthDate = currentDate.withMonth(index + 1)
-                            .format(DateTimeFormatter.ofPattern("MM-yyyy"))
-                        val dateWithDay = "$monthDate"  // Adiciona o dia 01
-
-                        dataList.add(
-                            MyDataItem(
-                                name = monthFormatted,  // Exibe como "novembro", "dezembro", etc.
-                                data = dateWithDay,      // Salva como "01-MM-yyyy"
-                                isDaily = false,
-                                isSemana = false
-                            )
-                        )
-
-                        // Verifica se é o mês atual e marca o item
-                        if (currentDate.monthValue == index + 1) {
-                            selectedItemIndex = index // Marca o índice do item como selecionado
-                        }
-                    }
+                    selectedItemIndex = Mensal(currentDate, dataList, selectedItemIndex)
                 }
-
-
             }
-
 
             adapterDatas(dataList)
 
-            // Após configurar o RecyclerView, marca o item selecionado
             selectedItemIndex?.let {
                 // Simula o clique no item, ao forçar a rolagem até ele e chamando a função de seleção
                 (binding.recyclerView2.layoutManager as? LinearLayoutManager)?.apply {
@@ -466,11 +371,170 @@ class HistoricoActivity : AppCompatActivity() {
             }
         }
 
-        // Simula a seleção do botão "Diário" ao iniciar
+        // inicia a tela com o filtro no dia
         binding.toggleGroup.check(R.id.btnDiario)
     }
 
+    private fun Mensal(
+        currentDate: LocalDate,
+        dataList: MutableList<MyDataItem>,
+        selectedItemIndex: Int?
+    ): Int? {
+        // Preenche a lista com os meses do ano atual em pt-BR
+        var selectedItemIndex1 = selectedItemIndex
+        val monthsOfYear = (0 until 12).map { month ->
+            // Usa o ano atual e configura o Locale para pt-BR para os nomes dos meses
+            currentDate.withMonth(month + 1)
+                .format(DateTimeFormatter.ofPattern("MMMM", Locale("pt", "BR")))
+        }
+
+        monthsOfYear.forEachIndexed { index, monthFormatted ->
+            // Cria a data correspondente a cada mês no formato "MM-yyyy"
+            val monthDate = currentDate.withMonth(index + 1)
+                .format(DateTimeFormatter.ofPattern("MM-yyyy"))
+            val dateWithDay = "$monthDate"  // Adiciona o dia 01
+
+            val isCurrentMonth = currentDate.monthValue == index + 1
+            dataList.add(
+                MyDataItem(
+                    name = monthFormatted,  // Exibe como "novembro", "dezembro", etc.
+                    data = dateWithDay,      // Salva como "01-MM-yyyy"
+                    isDaily = false,
+                    isSemana = false,
+                    hoje = isCurrentMonth
+                )
+            )
+
+            // Verifica se é o mês atual e marca o item
+            if (currentDate.monthValue == index + 1) {
+                selectedItemIndex1 = index // Marca o índice do item como selecionado
+            }
+        }
+        filtroSelecionado = "Mes"
+        return selectedItemIndex1
+    }
+
+    private fun Semanal(
+        dataList: MutableList<MyDataItem>,
+        selectedItemIndex: Int?
+    ): Int? {
+        var selectedItemIndex1 = selectedItemIndex
+        val weeksOfMonth = mutableListOf<String>()
+
+        val currentDate = LocalDate.now()
+        val firstDayOfMonth = currentDate.withDayOfMonth(1)
+        val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth())
+
+        val totalWeeksInMonth = ChronoUnit.WEEKS.between(
+            firstDayOfMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)),
+            lastDayOfMonth.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY))
+        ).toInt() + 1
+
+        for (week in 0 until totalWeeksInMonth) {
+            val startOfWeek = firstDayOfMonth.plusWeeks(week.toLong()).with(
+                TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)
+            )
+
+
+            val endOfWeek = startOfWeek.plusDays(6)
+
+            val isCurrentWeek =
+                currentDate.isBefore(endOfWeek.plusDays(1)) && currentDate.isAfter(
+                    startOfWeek.minusDays(1)
+                )
+
+            val weekFormatted = "Semana ${week + 1}\n${
+                startOfWeek.format(DateTimeFormatter.ofPattern("dd/MM"))
+            } a ${endOfWeek.format(DateTimeFormatter.ofPattern("dd/MM"))}"
+
+            // Salvando a data de início da semana no formato "dd-MM-yyyy"
+            val weekStartDate =
+                startOfWeek.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+
+            dataList.add(
+                MyDataItem(
+                    name = weekFormatted,
+                    data = weekStartDate, // Aqui será salva a data de início da semana
+                    isDaily = false,
+                    isSemana = true,
+                    hoje = isCurrentWeek
+                )
+            )
+
+            if (currentDate.isBefore(endOfWeek.plusDays(1)) && currentDate.isAfter(
+                    startOfWeek.minusDays(1)
+                )
+            ) {
+                selectedItemIndex1 = week
+            }
+        }
+        filtroSelecionado = "Semana"
+        return selectedItemIndex1
+    }
+
+    private fun Diario(
+        currentDate: LocalDate,
+        dataList: MutableList<MyDataItem>,
+        selectedItemIndex: Int?
+    ): Int? {
+        // Preenche a lista com os dias do mês
+        var selectedItemIndex1 = selectedItemIndex
+        val daysOfMonth = (1..currentDate.lengthOfMonth()).map { day ->
+            currentDate.withDayOfMonth(day)
+                .format(DateTimeFormatter.ofPattern("MMM \ndd"))
+        }
+        daysOfMonth.forEachIndexed { index, dayFormatted ->
+
+            val dataNoFormatoDDMMYYYY = currentDate.withDayOfMonth(index + 1)
+                .format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+
+            val isToday = currentDate.dayOfMonth == index + 1
+
+            dataList.add(
+                MyDataItem(
+                    name = dayFormatted,  // Exibe como "Nov \n23"
+                    data = dataNoFormatoDDMMYYYY,  // Salva como "23-11-2024"
+                    isDaily = true,
+                    isSemana = false,
+                    hoje = isToday
+                )
+            )
+
+            // Verifica se é o dia atual e marca o item
+            if (currentDate.dayOfMonth == index + 1) {
+                selectedItemIndex1 = index // Marca o índice do item como selecionado
+            }
+        }
+        filtroSelecionado = "Dia"
+        return selectedItemIndex1
+    }
+
     private fun adapterDatas(dataList: MutableList<MyDataItem>) {
+
+        if (filtroSelecionado == "Dia") {
+            val todayItemIndex = dataList.indexOfFirst { it.hoje && it.isDaily }
+            if (todayItemIndex != -1) {
+                binding.recyclerView2.post {
+                    binding.recyclerView2.findViewHolderForAdapterPosition(todayItemIndex)?.itemView?.performClick()
+                }
+            }
+        } else if (filtroSelecionado == "Semana") {
+            val currentWeekIndex = dataList.indexOfFirst { it.hoje && it.isSemana }
+            if (currentWeekIndex != -1) {
+                binding.recyclerView2.post {
+                    binding.recyclerView2.findViewHolderForAdapterPosition(currentWeekIndex)?.itemView?.performClick()
+                }
+            }
+        } else if (filtroSelecionado == "Mes") {
+            val currentMonthIndex = dataList.indexOfFirst { it.hoje && !it.isDaily && !it.isSemana }
+            if (currentMonthIndex != -1) {
+                binding.recyclerView2.post {
+                    binding.recyclerView2.findViewHolderForAdapterPosition(currentMonthIndex)?.itemView?.performClick()
+                }
+            }
+        }
+
+
         val adapter = DataAdapter(
             posts = dataList,
             onItemClickListener = { dataItem ->

@@ -30,7 +30,8 @@ class NutricaoClassesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupView()
         preferencesManager = PreferencesManager(this)
-
+        val classe = intent.getStringExtra("classe")
+        binding.NameClase.text = classe
         binding.imageAlimento.load(preferencesManager.image) {
             listener(
                 onSuccess = { _, _ -> binding.progressBar2.visibility = GONE
@@ -43,7 +44,9 @@ class NutricaoClassesActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        getAlimentos("Meat")
+        if (classe != null) {
+            getAlimentos(classe)
+        }
 
     }
 

@@ -32,7 +32,7 @@ class RecyclerViewHistorico(
             if (post.image == "imagem" || post.image == null ||  post.image == "") {
                 postsitembinding.ImageClass.load("https://firebasestorage.googleapis.com/v0/b/aplicativomobile-4adc3.appspot.com/o/semImagem.jpg?alt=media&token=f31ed409-302f-4c71-aab2-5376dcf08a2a")
             } else {
-                postsitembinding.ImageClass.load("https://firebasestorage.googleapis.com/v0/b/aplicativomobile-4adc3.appspot.com/o/semImagem.jpg?alt=media&token=f31ed409-302f-4c71-aab2-5376dcf08a2a")
+                postsitembinding.ImageClass.load(post.image)
             }
 
 
